@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payphone Navigation</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #2c3e50;
+            font-family: 'Courier New', monospace;
+        }
+
+        .payphone {
+            background-color: #95a5a6;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            border: 8px solid #7f8c8d;
+        }
+
+        .display {
+            background-color: #2ecc71;
+            color: #000;
+            padding: 10px;
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-family: 'Digital', 'Courier New', monospace;
+            border: 3px solid #27ae60;
+            min-height: 80px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .number-display {
+            text-align: right;
+            font-size: 24px;
+            border-bottom: 2px solid #27ae60;
+            padding-bottom: 5px;
+        }
+
+        .message-display {
+            font-size: 14px;
+            line-height: 1.2;
+            overflow-wrap: break-word;
+            max-height: 60px;
+            overflow-y: auto;
+        }
+
+        .keypad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .key {
+            background-color: #ecf0f1;
+            border: none;
+            padding: 15px;
+            font-size: 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            box-shadow: 0 4px 0 #bdc3c7;
+            transition: all 0.1s;
+            user-select: none;
+        }
+
+        .function-key {
+            font-size: 16px;
+            background-color: #3498db;
+            color: white;
+            box-shadow: 0 4px 0 #2980b9;
+        }
+
+        .function-key:active {
+            box-shadow: 0 1px 0 #2980b9;
+        }
+
+        .send-key {
+            background-color: #e74c3c;
+            color: white;
+            grid-column: span 3;
+            box-shadow: 0 4px 0 #c0392b;
+        }
+
+        .send-key:active {
+            box-shadow: 0 1px 0 #c0392b;
+        }
+    </style>
+</head>
+<body>
+    <div class="payphone">
+        <div class="display">
+            <div class="number-display" id="number-display"></div>
+            <div class="message-display" id="message-display"></div>
+        </div>
+        <div class="keypad">
+            <button class="key">1</button>
+            <button class="key">2</button>
+            <button class="key">3</button>
+            <button class="key">4</button>
+            <button class="key">5</button>
+            <button class="key">6</button>
+            <button class="key">7</button>
+            <button class="key">8</button>
+            <button class="key">9</button>
+            <button class="key function-key" id="backspace">←BACK</button>
+            <button class="key">0</button>
+            <button class="key function-key" id="clear">CLEAR</button>
+            <button class="key send-key">SEND</button>
+        </div>
+    </div>
+
+    <script>
+        const pageDescriptions = {
+            '1': 'AI, Culture, and Society Seeds',
+            '2': 'Israel-Hamas Conflict Analysis',
+            '3': 'Page 3',
+            '4': 'Page 4',
+            '5': 'Page 5',
+            '6': 'Cybernetics, Control & Cultural Systems',
+            '7': 'Academic Publishing Strategies',
+            '8': 'Evolution of AI Narratives',
+            '9': 'Page 9',
+            '10': 'Software, System Instructions & Digital Media',
+            '11': 'Social Theory Network',
+            '12': 'Page 12',
+            '13': 'Page 13'
+        };
+
+        let numberDisplay = document.getElementById('number-display');
+        let messageDisplay = document.getElementById('message-display');
+        let currentNumber = '';
+
+        function updateDisplay() {
+            numberDisplay.textContent = currentNumber || ' ';
+            if (currentNumber === '') {
+                messageDisplay.textContent = 'Enter page number (1-13)';
+            } else {
+                const pageNum = parseInt(currentNumber);
+                if (pageNum >= 1 && pageNum <= 13) {
+                    messageDisplay.textContent = pageDescriptions[currentNumber];
+                } else {
+                    messageDisplay.textContent = 'Invalid page number';
+                }
+            }
+        }
+
+        document.querySelectorAll('.key').forEach(key => {
+            key.addEventListener('click', () => {
+                const value = key.textContent;
+                
+                if (key.classList.contains('send-key')) {
+                    if (currentNumber !== '') {
+                        let pageNumber = parseInt(currentNumber);
+                        if (pageNumber >= 1 && pageNumber <= 13) {
+                            messageDisplay.textContent = 'Connecting...';
+                            setTimeout(() => {
+                                window.location.href = `${pageNumber}.html`;
+                            }, 800);
+                        } else {
+                            messageDisplay.textContent = 'ERROR: Invalid page';
+                            setTimeout(updateDisplay, 1000);
+                        }
+                    }
+                } else if (key.id === 'backspace') {
+                    currentNumber = currentNumber.slice(0, -1);
+                    updateDisplay();
+                } else if (key.id === 'clear') {
+                    currentNumber = '';
+                    updateDisplay();
+                } else if (!isNaN(value)) {
+                    if (currentNumber.length < 2) {
+                        currentNumber += value;
+                        updateDisplay();
+                    }
+                }
+            });
+        });
+
+        // Initialize display
+        updateDisplay();
+
+        // Add beeper sound effect
+        function playBeep() {
+            const beep = new Audio('data:audio/wav;base64,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qJrx4KOQjahZxWbcZgztj2c49nKmkId44S71j0c8eV9yDK6uPRzx5X18eDvjvQ6yKo9ZSS6l//8elePK/Lf//IInrOF/FvDoADYAGBMGb7FtErm5MXMlmPAJQVgWta7Zx2go+8xJ0UiCb8LHHdftWyLJE0QIAIsI+UbXu67dZMjmgDGCGl1H+vpF4NSDckSIkk7Vd+sxEhBQMRU8j/12UIRhzSaUdQ+rQU5kGeFxm+hb1oh6pWWmv3uvmReDl0UnvtapVaIzo1jZbf/pD6ElLqSX+rUmOQNpJFa/r+sa4e/pBlAABoAAAAA3CUgShLdGIxsY7AUABPRrgCABdDuQ5GC7DqPQCgbbJUAoRSUj+NIEig0YfyWUho1VBBBA//uQZB4ABZx5zfMakeAAAAmwAAAAF5F3P0w9GtAAACfAAAAAwLhMDmAYWMgVEG1U0FIGCBgXBXAtfMH10000EEEEEECUBYln03TTTdNBDZopopYvrTTdNa325mImNg3TTPV9q3pmY0xoO6bv3r00y+IDGid/9aaaZTGMuj9mpu9Mpio1dXrr5HERTZSmqU36A3CumzN/9Robv/Xx4v9ijkSRSNLQhAWumap82WRSBUqXStV/YcS+XVLnSS+WLDroqArFkMEsAS+eWmrUzrO0oEmE40RlMZ5+ODIkAyKAGUwZ3mVKmcamcJnMW26MRPgUw6j+LkhyHGVGYjSUUKNpuJUQoOIAyDvEyG8S5yfK6dhZc0Tx1KI/gviKL6qvvFs1+bWtaz58uUNnryq6kt5RzOCkPWlVqVX2a/EEBUdU1KrXLf40GoiiFXK///qpoiDXrOgqDR38JB0bw7SoL+ZB9o1RCkQjQ2CBYZKd/+VJxZRRZlqSkKiws0WFxUyCwsKiMy7hUVFhIaCrNQsKkTIsLivwKKigsj8XYlwt/WKi2N4d//uQRCSAAjURNIHpMZBGYiaQPSYyAAABLAAAAAAAACWAAAAApUF/Mg+0aohSIRobBAsMlO//Kk4soosy1JSFRYWaLC4qZBYWFRGZdwqKiwkNBVmoWFSJkWFxX4FFRQWR+LsS4W/rFRb/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////VEFHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAU291bmRib3kuZGUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMjAwNGh0dHA6Ly93d3cuc291bmRib3kuZGUAAAAAAAAAACU=');
+                beep.play();
+            }
+
+            // Play beep on key press
+            document.querySelectorAll('.key').forEach(key => {
+                key.addEventListener('click', playBeep);
+            });
+        </script>
+    </body>
+</html>
