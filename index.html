@@ -120,17 +120,24 @@
         const pageDescriptions = {
             '1': 'AI, Culture, and Society Seeds',
             '2': 'Israel-Hamas Conflict Analysis',
-            '3': 'Page 3',
-            '4': 'Page 4',
-            '5': 'Page 5',
+            '3': 'Intersectionality and Critical Perspectives',
+            '4': 'Digital and Networked Technologies',
+            '5': 'Socio-Technical Practices and Applications',
             '6': 'Cybernetics, Control & Cultural Systems',
             '7': 'Academic Publishing Strategies',
             '8': 'Evolution of AI Narratives',
-            '9': 'Page 9',
+            '9': 'Media Studies',
             '10': 'Software, System Instructions & Digital Media',
             '11': 'Social Theory Network',
             '12': 'Page 12',
             '13': 'Page 13'
+        };
+
+        const externalLinks = {
+            '3': 'https://intersectional-critical-sts-3.glitch.me/',
+            '4': 'https://digital-networked-sts-4.glitch.me/',
+            '5': 'https://practices-sts-5.glitch.me/',
+            '9': 'https://media-studies.glitch.me/'
         };
 
         let numberDisplay = document.getElementById('number-display');
@@ -161,7 +168,11 @@
                         if (pageNumber >= 1 && pageNumber <= 13) {
                             messageDisplay.textContent = 'Connecting...';
                             setTimeout(() => {
-                                window.location.href = `${pageNumber}.html`;
+                                if (externalLinks[currentNumber]) {
+                                    window.location.href = externalLinks[currentNumber];
+                                } else {
+                                    window.location.href = `${pageNumber}.html`;
+                                }
                             }, 800);
                         } else {
                             messageDisplay.textContent = 'ERROR: Invalid page';
