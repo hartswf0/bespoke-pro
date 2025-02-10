@@ -137,7 +137,10 @@
             '17': 'Digital and Networked Technologies',
             '18': 'Socio-Technical Practices',
             '19': 'Key Historical STS',
-            '20': 'Media Studies'
+            '20': 'Media Studies',
+            '21': 'Category Theory for AI Art Creation',
+            '22': 'Vance, Orbán & Higher Education',
+            '23': 'State Space Network Interface'
         };
 
         const externalLinks = {
@@ -147,7 +150,10 @@
             '17': 'https://digital-networked-sts-4.glitch.me/',
             '18': 'https://practices-sts-5.glitch.me/',
             '19': 'https://key-historical-sts-6.glitch.me/',
-            '20': 'https://media-studies.glitch.me/'
+            '20': 'https://media-studies.glitch.me/',
+            '21': 'https://machine-material.glitch.me/',
+            '22': 'https://vance-orban-and-higher-ed.glitch.me/',
+            '23': 'https://state-space-network.glitch.me/'
         };
 
         let numberDisplay = document.getElementById('number-display');
@@ -157,10 +163,10 @@
         function updateDisplay() {
             numberDisplay.textContent = currentNumber || ' ';
             if (currentNumber === '') {
-                messageDisplay.textContent = 'Enter page number (1-20)';
+                messageDisplay.textContent = 'Enter page number (1-23)';
             } else {
                 const pageNum = parseInt(currentNumber);
-                if (pageNum >= 1 && pageNum <= 20) {
+                if (pageNum >= 1 && pageNum <= 23) {
                     messageDisplay.textContent = pageDescriptions[currentNumber];
                 } else {
                     messageDisplay.textContent = 'Invalid page number';
@@ -175,7 +181,7 @@
                 if (key.classList.contains('send-key')) {
                     if (currentNumber !== '') {
                         let pageNumber = parseInt(currentNumber);
-                        if (pageNumber >= 1 && pageNumber <= 20) {
+                        if (pageNumber >= 1 && pageNumber <= 23) {
                             messageDisplay.textContent = 'Connecting...';
                             setTimeout(() => {
                                 if (externalLinks[currentNumber]) {
