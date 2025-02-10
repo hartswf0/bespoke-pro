@@ -120,24 +120,34 @@
         const pageDescriptions = {
             '1': 'AI, Culture, and Society Seeds',
             '2': 'Israel-Hamas Conflict Analysis',
-            '3': 'Intersectionality and Critical Perspectives',
-            '4': 'Digital and Networked Technologies',
-            '5': 'Socio-Technical Practices and Applications',
+            '3': 'Page 3',
+            '4': 'Page 4',
+            '5': 'Page 5',
             '6': 'Cybernetics, Control & Cultural Systems',
             '7': 'Academic Publishing Strategies',
             '8': 'Evolution of AI Narratives',
-            '9': 'Media Studies',
+            '9': 'Page 9',
             '10': 'Software, System Instructions & Digital Media',
             '11': 'Social Theory Network',
             '12': 'Page 12',
-            '13': 'Page 13'
+            '13': 'Page 13',
+            '14': 'Foundation STS',
+            '15': 'STS Frameworks',
+            '16': 'Intersectionality and Critical Perspectives',
+            '17': 'Digital and Networked Technologies',
+            '18': 'Socio-Technical Practices',
+            '19': 'Key Historical STS',
+            '20': 'Media Studies'
         };
 
         const externalLinks = {
-            '3': 'https://intersectional-critical-sts-3.glitch.me/',
-            '4': 'https://digital-networked-sts-4.glitch.me/',
-            '5': 'https://practices-sts-5.glitch.me/',
-            '9': 'https://media-studies.glitch.me/'
+            '14': 'https://foundation-sts-1.glitch.me/',
+            '15': 'https://sts-frameworks-2.glitch.me/',
+            '16': 'https://intersectional-critical-sts-3.glitch.me/',
+            '17': 'https://digital-networked-sts-4.glitch.me/',
+            '18': 'https://practices-sts-5.glitch.me/',
+            '19': 'https://key-historical-sts-6.glitch.me/',
+            '20': 'https://media-studies.glitch.me/'
         };
 
         let numberDisplay = document.getElementById('number-display');
@@ -147,10 +157,10 @@
         function updateDisplay() {
             numberDisplay.textContent = currentNumber || ' ';
             if (currentNumber === '') {
-                messageDisplay.textContent = 'Enter page number (1-13)';
+                messageDisplay.textContent = 'Enter page number (1-20)';
             } else {
                 const pageNum = parseInt(currentNumber);
-                if (pageNum >= 1 && pageNum <= 13) {
+                if (pageNum >= 1 && pageNum <= 20) {
                     messageDisplay.textContent = pageDescriptions[currentNumber];
                 } else {
                     messageDisplay.textContent = 'Invalid page number';
@@ -165,7 +175,7 @@
                 if (key.classList.contains('send-key')) {
                     if (currentNumber !== '') {
                         let pageNumber = parseInt(currentNumber);
-                        if (pageNumber >= 1 && pageNumber <= 13) {
+                        if (pageNumber >= 1 && pageNumber <= 20) {
                             messageDisplay.textContent = 'Connecting...';
                             setTimeout(() => {
                                 if (externalLinks[currentNumber]) {
